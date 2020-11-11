@@ -1,0 +1,46 @@
+Последняя операция: {{statusMessage}}
+<table>
+  <thead>
+    <tr>
+      <th> Id </th>
+      <th> name </th>
+      <th> body </th>
+      <th> image </th>
+      <th> date </th>
+      <th> операции </th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let re of Reviews">
+      <ng-template [ngTemplateOutlet]="loadTemplate(re)"
+                   [ngTemplateOutletContext]="{ $implicit: re}">
+      </ng-template>
+    </tr>
+ </tbody>
+</table>
+<input type="button" value="Добавить" class="btn btn-default" (click)="addReview()" />
+
+<!--шаблон для чтения-->
+<ng-template #readOnlyTemplate let-re>
+  <td>{{re._id}}</td>
+  <td>{{re.name}}</td>
+  <td>{{re.body}}</td>
+  <td>{{re.image}}</td>
+  <td>{{re.date}}</td>
+  <td> edit, delete </td>
+</ng-template>
+
+<!--шаблон для редактирования-->
+<ng-template #editTemplate>
+  <td><input type="number" [(ngModel)]="EditReview._id" readonly disabled class="form-control" /></td>
+  <td><input type="text" [(ngModel)]="EditReview.name" class="form-control" /></td>
+  <td><input type="text" [(ngModel)]="EditReview.body" class="form-control" /></td>
+  <td><input type="url" [(ngModel)]="EditReview.image" class="form-control" /></td>
+  <td><input type="date" [(ngModel)]="EditReview.date" class="form-control" /></td>
+  <td>
+    <input type="button" value="Сохранить" (click)="saveReview()" class="btn btn-success" />
+    <input type="button" value="Отмена" (click)="cancel()" class="btn btn-warning" />
+  </td>
+</ng-template>
